@@ -47,7 +47,7 @@ function Register() {
     }
 
     try {
-      const response = await apiService.auth.register(
+      await apiService.auth.register(
         formData.email,
         formData.password,
         formData.firstName,
