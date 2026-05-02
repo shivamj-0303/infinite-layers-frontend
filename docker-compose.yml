@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080/api
+    depends_on:
+      - backend
+    networks:
+      - infinite-prints
+
+  backend:
+    build:
+      context: ../Infinite-Prints
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/infiniteprints_dev
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - JWT_SECRET=dev-secret-that-is-long-enough-for-dev-please-change-to-secure-64-characters!
+    depends_on:
+      - db
+    networks:
+      - infinite-prints
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: infiniteprints_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ../Infinite-Prints/src/main/resources/db/seed:/docker-entrypoint-initdb.d:ro
+    networks:
+      - infinite-prints
+
+volumes:
+  db_data:
+
+networks:
+  infinite-prints:
+    driver: bridge
