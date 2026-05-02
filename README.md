@@ -31,6 +31,12 @@ A modern React frontend for the Infinite Prints e-commerce platform with user au
 
 ```
 src/
+├── config/
+│   └── index.js           # Centralized configuration
+├── services/
+│   └── api.js             # API service layer with all endpoints
+├── hooks/
+│   └── useApi.js          # Custom React hooks
 ├── components/
 │   └── Header.js          # Navigation header with login/logout
 ├── pages/
@@ -170,10 +176,35 @@ Creates an optimized production build in the `build/` directory.
 |----------|-------------|---------|
 | `REACT_APP_API_URL` | Backend API URL | `http://localhost:8080/api` |
 
+## 📚 Documentation
+
+### API Architecture & Usage
+- **[API_COMPLETE_SUMMARY.md](./API_COMPLETE_SUMMARY.md)** ⭐ START HERE - Overview of the production-grade API architecture
+- **[API_QUICK_START.md](./API_QUICK_START.md)** - Quick reference for making API calls
+- **[API_CONFIGURATION.md](./API_CONFIGURATION.md)** - Complete detailed guide with examples
+- **[API_BEFORE_AFTER.md](./API_BEFORE_AFTER.md)** - Why we use this architecture (comparison)
+- **[API_ARCHITECTURE.md](./API_ARCHITECTURE.md)** - Architecture diagrams and flow charts
+- **[API_DOCUMENTATION_INDEX.md](./API_DOCUMENTATION_INDEX.md)** - Navigation guide for all API docs
+
+### Environment & Deployment
+- **[VERCEL_SETUP.md](./VERCEL_SETUP.md)** - Vercel deployment and environment variables
+- **[ENV_VARIABLES_FLOW.md](./ENV_VARIABLES_FLOW.md)** - How environment variables work
+- **[DOCKER_AND_DEPLOYMENT.md](./DOCKER_AND_DEPLOYMENT.md)** - Docker and cloud deployment guides
+
+---
+
 ## Deployment Options
 
-### Option 1: Vercel (Recommended for Frontend)
-See `DOCKER_AND_DEPLOYMENT.md` for detailed Vercel deployment instructions.
+### Option 1: Vercel (Recommended for Frontend) ⭐
+**Environment Variables:** Vercel automatically injects `REACT_APP_API_URL` at build time.
+
+Steps:
+1. Push code to GitHub
+2. Go to https://vercel.com and import your repository
+3. Add environment variable: `REACT_APP_API_URL=<your-backend-url>`
+4. Deploy!
+
+See `VERCEL_SETUP.md` for detailed step-by-step instructions.
 
 ### Option 2: Docker Deployment
 - AWS ECS/Fargate

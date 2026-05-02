@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiService from '../../services/api';
 
 function Register() {
   const navigate = useNavigate();
@@ -13,8 +13,6 @@ function Register() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,12 +47,12 @@ function Register() {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/auth/register`, {
-        email: formData.email,
-        password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-      });
+      const response = await apiService.auth.register(
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName
+      );
 
       // Show success message and redirect
       alert('Registration successful! Please login to your account.');

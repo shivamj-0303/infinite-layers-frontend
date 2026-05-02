@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiService from '../../services/api';
+import config from '../../config';
 
 function Login({ onLoginSuccess }) {
   const navigate = useNavigate();
@@ -8,8 +9,6 @@ function Login({ onLoginSuccess }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,16 +23,17 @@ function Login({ onLoginSuccess }) {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/auth/login`, {
-        email,
-        password,
-      });
+      const response = await apiService.auth.login(email, password);
 
       // Extract token from response
       const token = response.data.token;
 
       // Decode token to get user info (basic JWT decode)
       const userData = parseJwt(token);
+
+      // Store token and user data in localStorage
+      localStorage.setItem(config.auth.tokenKey, token);
+      localStorage.setItem(config.auth.userKey, JSON.stringify(userData));
 
       // Call success callback
       onLoginSuccess(token, userData);
