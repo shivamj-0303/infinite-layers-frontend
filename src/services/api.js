@@ -1,253 +1,84 @@
-/**
- * API Service Module
- * 
- * Centralized Axios instance and API methods
- * 
- * This module:
- * - Creates a single Axios instance with shared configuration
- * - Provides clean API methods for all endpoints
- * - Handles common error patterns
- * - Manages authentication headers automatically
- * - Can be easily extended for new endpoints
- * 
- * Usage:
- * import apiService from '@/services/api';
- * apiService.login(email, password)
- * apiService.register(userData)
- */
-
 import axios from 'axios';
-import config from '../config';
 
-// Create Axios instance with centralized configuration
-const apiInstance = axios.create({
-  baseURL: config.api.baseURL,
-  timeout: config.api.timeout,
-  headers: config.api.headers,
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+
+const api = axios.create({ baseURL: API_BASE });
+
+// Attach JWT to every request
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem('authToken');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
 });
 
-/**
- * Request Interceptor
- * Automatically add JWT token to all requests
- */
-apiInstance.interceptors.request.use(
-  (requestConfig) => {
-    // Get token from localStorage
-    const token = localStorage.getItem(config.auth.tokenKey);
-
-    // Add Authorization header if token exists
-    if (token) {
-      requestConfig.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return requestConfig;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-/**
- * Response Interceptor
- * Handle common error patterns and token expiry
- */
-apiInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Handle 401 Unauthorized (token expired or invalid)
+// Auto-logout on 401 ONLY for authenticated requests
+api.interceptors.response.use(
+  response => response,
+  error => {
     if (error.response?.status === 401) {
-      // Clear authentication
-      localStorage.removeItem(config.auth.tokenKey);
-      localStorage.removeItem(config.auth.userKey);
-
-      // Optionally: redirect to login
-      // window.location.href = '/login';
-
-      console.warn('🔐 Authentication expired. Please login again.');
+      // Only redirect if user had a token (was authenticated)
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
     }
-
-    // Handle 403 Forbidden (insufficient permissions)
-    if (error.response?.status === 403) {
-      console.warn('🚫 You do not have permission to access this resource.');
-    }
-
-    // Handle 500 Server Error
-    if (error.response?.status >= 500) {
-      console.error('🔥 Server error. Please try again later.');
-    }
-
     return Promise.reject(error);
   }
 );
+export const authApi = {
+  login: (email, password) => api.post('/auth/login', { email, password }),
+  register: (email, password, firstName, lastName) => api.post('/auth/register', { email, password, firstName, lastName }),
+  logout: () => api.post('/auth/logout'),
+};
 
-/**
- * API Service Object
- * Contains all API endpoint methods
- * Organized by feature (auth, products, orders, etc.)
- */
-const apiService = {
-  /**
-   * Authentication Endpoints
-   */
-  auth: {
-    /**
-     * User login
-     * @param {string} email - User email
-     * @param {string} password - User password
-     * @returns {Promise} Response with JWT token
-     */
-    login: (email, password) =>
-      apiInstance.post('/auth/login', { email, password }),
-
-    /**
-     * User registration
-     * @param {string} email - User email
-     * @param {string} password - User password
-     * @param {string} firstName - User first name
-     * @param {string} lastName - User last name
-     * @returns {Promise} Response with JWT token
-     */
-    register: (email, password, firstName, lastName) =>
-      apiInstance.post('/auth/register', {
-        email,
-        password,
-        firstName,
-        lastName,
-      }),
-
-    /**
-     * Refresh JWT token
-     * @returns {Promise} Response with new token
-     */
-    refreshToken: () => apiInstance.post('/auth/refresh-token'),
-
-    /**
-     * Logout (optional - mainly for clearing frontend state)
-     * @returns {Promise}
-     */
-    logout: () => {
-      localStorage.removeItem(config.auth.tokenKey);
-      localStorage.removeItem(config.auth.userKey);
-      return Promise.resolve();
-    },
-  },
-
-  /**
-   * User Endpoints (placeholder for future development)
-   */
-  user: {
-    /**
-     * Get current user profile
-     * @returns {Promise} Current user data
-     */
-    getProfile: () => apiInstance.get('/user/profile'),
-
-    /**
-     * Update user profile
-     * @param {object} profileData - Updated profile data
-     * @returns {Promise} Updated user data
-     */
-    updateProfile: (profileData) =>
-      apiInstance.put('/user/profile', profileData),
-
-    /**
-     * Change password
-     * @param {string} currentPassword - Current password
-     * @param {string} newPassword - New password
-     * @returns {Promise} Success response
-     */
-    changePassword: (currentPassword, newPassword) =>
-      apiInstance.post('/user/change-password', {
-        currentPassword,
-        newPassword,
-      }),
-  },
-
-  /**
-   * Products Endpoints (placeholder for future development)
-   */
-  products: {
-    /**
-     * Get all products
-     * @param {object} filters - Filter options (limit, offset, search, etc.)
-     * @returns {Promise} List of products
-     */
-    getAll: (filters = {}) => apiInstance.get('/products', { params: filters }),
-
-    /**
-     * Get single product
-     * @param {string} productId - Product ID
-     * @returns {Promise} Product data
-     */
-    getById: (productId) => apiInstance.get(`/products/${productId}`),
-  },
-
-  /**
-   * Cart Endpoints (placeholder for future development)
-   */
-  cart: {
-    /**
-     * Get user's cart
-     * @returns {Promise} Cart items
-     */
-    getCart: () => apiInstance.get('/cart'),
-
-    /**
-     * Add item to cart
-     * @param {string} productId - Product ID
-     * @param {number} quantity - Quantity to add
-     * @returns {Promise} Updated cart
-     */
-    addItem: (productId, quantity) =>
-      apiInstance.post('/cart/add', { productId, quantity }),
-
-    /**
-     * Remove item from cart
-     * @param {string} productId - Product ID
-     * @returns {Promise} Updated cart
-     */
-    removeItem: (productId) => apiInstance.delete(`/cart/items/${productId}`),
-
-    /**
-     * Clear cart
-     * @returns {Promise} Success response
-     */
-    clear: () => apiInstance.delete('/cart'),
-  },
-
-  /**
-   * Orders Endpoints (placeholder for future development)
-   */
-  orders: {
-    /**
-     * Get user's orders
-     * @param {object} filters - Filter options
-     * @returns {Promise} List of orders
-     */
-    getMyOrders: (filters = {}) =>
-      apiInstance.get('/orders/my-orders', { params: filters }),
-
-    /**
-     * Get single order
-     * @param {string} orderId - Order ID
-     * @returns {Promise} Order data
-     */
-    getById: (orderId) => apiInstance.get(`/orders/${orderId}`),
-
-    /**
-     * Create new order
-     * @param {object} orderData - Order details (items, shipping address, etc.)
-     * @returns {Promise} Created order
-     */
-    create: (orderData) => apiInstance.post('/orders', orderData),
-
-    /**
-     * Cancel order
-     * @param {string} orderId - Order ID
-     * @returns {Promise} Updated order
-     */
-    cancel: (orderId) => apiInstance.post(`/orders/${orderId}/cancel`),
+export const productApi = {
+  list: (page = 0, size = 20) => api.get(`/products?page=${page}&size=${size}`),
+  search: (q, page = 0) => api.get(`/products/search?q=${q}&page=${page}`),
+  getById: (id) => api.get(`/products/${id}`),
+  create: (data) => api.post('/products', data),
+  update: (id, data) => api.put(`/products/${id}`, data),
+  delete: (id) => api.delete(`/products/${id}`),
+  uploadImage: (id, file, primary = false) => {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('primary', primary);
+    return api.post(`/products/${id}/images`, form, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
   },
 };
 
-export default apiService;
+export const cartApi = {
+  get: () => api.get('/cart'),
+  addItem: (productId, variantId, qty) => api.post('/cart/items', { productId, variantId, quantity: qty }),
+  updateItem: (itemId, qty) => api.put(`/cart/items/${itemId}`, { quantity: qty }),
+  removeItem: (itemId) => api.delete(`/cart/items/${itemId}`),
+};
+
+export const orderApi = {
+  place: (data) => api.post('/orders', data),
+  list: (page = 0) => api.get(`/orders?page=${page}`),
+  getById: (id) => api.get(`/orders/${id}`),
+};
+
+export const categoryApi = {
+  list: () => api.get('/categories'),
+};
+
+export const wishlistApi = {
+  get: () => api.get('/wishlist'),
+  add: (productId) => api.post('/wishlist', { productId }),
+  remove: (productId) => api.delete(`/wishlist/${productId}`),
+};
+
+export default {
+  auth: authApi,
+  products: productApi,
+  cart: cartApi,
+  order: orderApi,
+  category: categoryApi,
+  wishlist: wishlistApi,
+  api,
+};

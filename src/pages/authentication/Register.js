@@ -1,8 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import apiService from '../../services/api';
+import toast from 'react-hot-toast';
 
-function Register() {
+// Utility function to decode JWT token
+const parseJwt = (token) => {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (err) {
+    console.error('Error parsing JWT:', err);
+    return null;
+  }
+};
+
+function Register({ onRegisterSuccess }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -47,43 +63,86 @@ function Register() {
     }
 
     try {
-      await apiService.auth.register(
+      const response = await apiService.auth.register(
         formData.email,
         formData.password,
         formData.firstName,
         formData.lastName
       );
 
-      // Show success message and redirect
-      alert('Registration successful! Please login to your account.');
-      navigate('/login');
+      console.log('Register response:', response.data); // DEBUG
+
+      // Show success message
+      toast.success('Registration successful!');
+      
+      // Auto-login if response contains token
+      let token = response.data?.token || response.data?.accessToken || response.data?.data?.token;
+      
+      if (token) {
+        // Decode token
+        const userData = parseJwt(token);
+        
+        console.log('Auto-login with token:', userData); // DEBUG
+        
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        // Call success callback
+        if (onRegisterSuccess) {
+          onRegisterSuccess(token, userData);
+        }
+        
+        // Wait a bit for state to update before navigating
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 100);
+        
+        toast.success('Logged in successfully!');
+      } else {
+        // No token in response, go to login
+        navigate('/login', { replace: true });
+      }
     } catch (err) {
       console.error('Registration error:', err);
-      setError(
-        err.response?.data?.message || 
-        err.response?.data || 
-        err.message || 
-        'Registration failed. Please try again.'
-      );
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data || 
+                          err.message || 
+                          'Registration failed. Please try again.';
+      toast.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Infinite Prints</h1>
-          <h2 className="text-2xl font-bold text-gray-900">Create your account</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Or{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              sign in to your account
-            </Link>
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Back Button */}
+      <div className="p-4">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center text-gray-700 hover:text-pink-500 transition"
+        >
+          <svg className="h-6 w-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
+      </div>
+
+      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Infinite Prints</h1>
+            <h2 className="text-2xl font-bold text-gray-900">Create your account</h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Or{' '}
+              <Link to="/login" className="font-medium text-pink-600 hover:text-pink-500">
+                sign in to your account
+              </Link>
+            </p>
+          </div>
 
         {/* Error Message */}
         {error && (
@@ -194,12 +253,13 @@ function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
               {loading ? 'Creating account...' : 'Create account'}
             </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );
