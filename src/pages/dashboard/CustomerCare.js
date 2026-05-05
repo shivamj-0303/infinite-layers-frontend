@@ -202,10 +202,10 @@ const CustomerCare = () => {
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h4 className="font-bold text-gray-900 mb-4">Quick Help Resources</h4>
                 <ul className="space-y-2">
-                  <li><a href="#" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">📖 View Documentation</a></li>
-                  <li><a href="#" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">🎥 Watch Video Tutorials</a></li>
-                  <li><a href="#" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">🐛 Report a Bug</a></li>
-                  <li><a href="#" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">💡 Share Feedback</a></li>
+                  <li><a href="/coming-soon" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">📖 View Documentation</a></li>
+                  <li><a href="/coming-soon" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">🎥 Watch Video Tutorials</a></li>
+                  <li><a href="/coming-soon" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">🐛 Report a Bug</a></li>
+                  <li><a href="/coming-soon" className="text-pink-600 hover:text-pink-700 flex items-center gap-2">💡 Share Feedback</a></li>
                 </ul>
               </div>
             </div>

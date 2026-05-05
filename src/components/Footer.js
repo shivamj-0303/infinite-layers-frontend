@@ -57,9 +57,9 @@ const Footer = () => {
             <div className="text-xs text-gray-500">
               <p className="font-semibold text-gray-400 mb-2">Follow Us</p>
               <div className="flex gap-3">
-                <a href="#" className="hover:text-pink-400 transition">Facebook</a>
-                <a href="#" className="hover:text-pink-400 transition">Instagram</a>
-                <a href="#" className="hover:text-pink-400 transition">Twitter</a>
+                <a href="/coming-soon" className="hover:text-pink-400 transition">Facebook</a>
+                <a href="/coming-soon" className="hover:text-pink-400 transition">Instagram</a>
+                <a href="/coming-soon" className="hover:text-pink-400 transition">Twitter</a>
               </div>
             </div>
           </div>

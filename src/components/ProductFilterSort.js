@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { productApi, categoryApi } from '../services/api';
-import ProductGrid from './ProductGrid';
 
 function ProductFilterSort({ 
   title, 
   searchQuery = '', 
-  filterType = 'all',
   isAuthenticated,
   onAddToCart 
 }) {
@@ -31,16 +29,6 @@ function ProductFilterSort({
     fetchCategories();
   }, []);
 
-  // Fetch products based on filters
-  useEffect(() => {
-    fetchProducts();
-  }, [searchQuery, filterType, currentPage, pageSize]);
-
-  // Apply additional filters and sorting
-  useEffect(() => {
-    applyFiltersAndSort();
-  }, [products, selectedCategory, sortBy, priceRange, inStockOnly]);
-
   const fetchCategories = async () => {
     try {
       const response = await categoryApi.list();
@@ -51,31 +39,14 @@ function ProductFilterSort({
     }
   };
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       let response;
 
       if (searchQuery) {
-        // Search products
         response = await productApi.search(searchQuery, currentPage);
-      } else if (filterType === 'latest') {
-        // Get latest products (newest first)
-        response = await productApi.list(currentPage, pageSize);
-      } else if (filterType === 'popular') {
-        // Get popular products - assuming this is sorted by views/rating
-        response = await productApi.list(currentPage, pageSize);
-      } else if (filterType === 'favorites') {
-        // Get customer favorites - could use rating/reviews
-        response = await productApi.list(currentPage, pageSize);
-      } else if (filterType === 'sale') {
-        // Get sale items - assuming API supports filter
-        response = await productApi.list(currentPage, pageSize);
-      } else if (filterType === 'custom') {
-        // Custom orders - filter by type
-        response = await productApi.list(currentPage, pageSize);
       } else {
-        // Default: all products
         response = await productApi.list(currentPage, pageSize);
       }
 
@@ -91,29 +62,27 @@ function ProductFilterSort({
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchQuery, currentPage, pageSize]);
 
-  const applyFiltersAndSort = () => {
+  const applyFiltersAndSort = useCallback(() => {
     let filtered = [...products];
 
-    // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter(
-        (product) => product.category?.toLowerCase() === selectedCategory.toLowerCase()
+        (product) =>
+          product.category?.toLowerCase() === selectedCategory.toLowerCase()
       );
     }
 
-    // Filter by price range
     filtered = filtered.filter(
-      (product) => product.price >= priceRange[0] && product.price <= priceRange[1]
+      (product) =>
+        product.price >= priceRange[0] && product.price <= priceRange[1]
     );
 
-    // Filter by stock
     if (inStockOnly) {
       filtered = filtered.filter((product) => product.stock > 0);
     }
 
-    // Sort products
     switch (sortBy) {
       case 'newest':
         filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -135,7 +104,15 @@ function ProductFilterSort({
     }
 
     setFilteredProducts(filtered);
-  };
+  }, [products, selectedCategory, sortBy, priceRange, inStockOnly]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    applyFiltersAndSort();
+  }, [applyFiltersAndSort]);
 
   const handleReset = () => {
     setSelectedCategory('');

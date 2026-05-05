@@ -20,7 +20,6 @@ import TermsConditions from './pages/TermsConditions';
 import CookiePolicy from './pages/CookiePolicy';
 import ProductDetail from './pages/ProductDetail';
 import Products from './pages/Products';
-import CategoryProducts from './pages/CategoryProducts';
 import FAQ from './pages/FAQ';
 import ShippingInfo from './pages/ShippingInfo';
 import Returns from './pages/Returns';
@@ -131,10 +130,6 @@ function App() {
             <Route
               path="/products"
               element={<Products isAuthenticated={isAuthenticated} />}
-            />
-            <Route
-              path="/category/:categoryId"
-              element={<CategoryProducts isAuthenticated={isAuthenticated} />}
             />
 
             {/* Customer Service Pages */}

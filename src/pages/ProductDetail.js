@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { productApi, cartApi, wishlistApi } from '../services/api';
 import toast from 'react-hot-toast';
@@ -15,28 +15,49 @@ function ProductDetail({ isAuthenticated }) {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    fetchProduct();
+  const fetchRelatedProducts = useCallback(async (categoryId) => {
+    try {
+      const response = await productApi.list(0, 12);
+      const related =
+        response.data?.content
+          ?.filter(p => p.categoryId === categoryId && p.id !== id)
+          .slice(0, 4) || [];
+
+      setRelatedProducts(related);
+    } catch (error) {
+      console.error('Error fetching related products:', error);
+    }
   }, [id]);
 
-  const fetchProduct = async () => {
+  const checkWishlist = useCallback(async (productId) => {
+    try {
+      const response = await wishlistApi.get();
+      const wishlisted = response.data?.some(item => item.id === productId);
+      setIsWishlisted(wishlisted);
+    } catch (error) {
+      console.error('Error checking wishlist:', error);
+    }
+  }, []);
+
+  const fetchProduct = useCallback(async () => {
     try {
       setLoading(true);
+
       const response = await productApi.getById(id);
-      setProduct(response.data);
-      
-      if (response.data.images && response.data.images.length > 0) {
-        const primaryImage = response.data.images.find(img => img.isPrimary) || response.data.images[0];
+      const data = response.data;
+
+      setProduct(data);
+
+      if (data.images?.length > 0) {
+        const primaryImage =
+          data.images.find(img => img.isPrimary) || data.images[0];
         setSelectedImage(primaryImage);
       }
 
-      // Fetch related products
-      fetchRelatedProducts(response.data.categoryId);
+      await fetchRelatedProducts(data.categoryId);
 
-      // Check if product is wishlisted
       if (isAuthenticated) {
-        checkWishlist(id);
+        await checkWishlist(id);
       }
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -45,27 +66,7 @@ function ProductDetail({ isAuthenticated }) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const fetchRelatedProducts = async (categoryId) => {
-    try {
-      const response = await productApi.list(0, 12);
-      const related = response.data?.content?.filter(p => p.categoryId === categoryId && p.id !== id).slice(0, 4) || [];
-      setRelatedProducts(related);
-    } catch (error) {
-      console.error('Error fetching related products:', error);
-    }
-  };
-
-  const checkWishlist = async (productId) => {
-    try {
-      const response = await wishlistApi.get();
-      const wishlisted = response.data?.some(item => item.id === productId);
-      setIsWishlisted(wishlisted);
-    } catch (error) {
-      console.error('Error checking wishlist:', error);
-    }
-  };
+  }, [id, isAuthenticated, navigate, fetchRelatedProducts, checkWishlist]);
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
@@ -86,7 +87,10 @@ function ProductDetail({ isAuthenticated }) {
       setIsAddingToCart(false);
     }
   };
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    fetchProduct();
+  }, [fetchProduct]);
   const handleBuyNow = () => {
     setShowComingSoonModal(true);
   };

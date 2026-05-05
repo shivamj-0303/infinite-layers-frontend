@@ -24,14 +24,7 @@ function Header({ isAuthenticated, user, onLogout }) {
     }
   };
 
-  const handleCustomerCare = () => {
-    navigate('/customer-care');
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleNavigation = (path) => {
-    navigate(path);
+  const handleNavigation = () => {
     setMobileMenuOpen(false);
     setDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -44,7 +37,7 @@ function Header({ isAuthenticated, user, onLogout }) {
         <div className="flex justify-between items-center h-16">
           {/* Logo - Only Image */}
           <div className="flex-shrink-0">
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:opacity-80 transition">
+            <Link to="/" onClick={handleNavigation} className="hover:opacity-80 transition">
               <img 
                 src="/logo.png" 
                 alt="Infinite Prints" 
@@ -81,7 +74,7 @@ function Header({ isAuthenticated, user, onLogout }) {
             {/* Wishlist/Favorites Button */}
             <Link
               to={isAuthenticated ? '/wishlist' : '/login'}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={handleNavigation}
               className="text-gray-700 hover:text-red-500 px-3 py-2 text-sm font-medium transition hidden lg:inline"
               title={isAuthenticated ? 'View Wishlist' : 'Login to view wishlist'}
             >
@@ -93,7 +86,7 @@ function Header({ isAuthenticated, user, onLogout }) {
             {/* Cart Icon */}
             <Link
               to={isAuthenticated ? '/cart' : '/login'}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={handleNavigation}
               className="text-gray-700 hover:text-pink-500 px-3 py-2 text-sm font-medium transition relative"
               title={isAuthenticated ? 'View Cart' : 'Login to view cart'}
             >
@@ -129,18 +122,12 @@ function Header({ isAuthenticated, user, onLogout }) {
                       <Link
                         to="/customer-care"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
+                        onClick={handleNavigation}
                       >
                         Customer Care
                       </Link>
                       <button
-                        onClick={() => {
-                          handleLogout();
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
+                        onClick={handleLogout}
                         className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
                       >
                         Logout
@@ -151,20 +138,14 @@ function Header({ isAuthenticated, user, onLogout }) {
                       <Link
                         to="/login"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
+                        onClick={handleNavigation}
                       >
                         Login
                       </Link>
                       <Link
                         to="/register"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
+                        onClick={handleNavigation}
                       >
                         Register
                       </Link>
@@ -219,28 +200,19 @@ function Header({ isAuthenticated, user, onLogout }) {
                   <Link
                     to="/wishlist"
                     className="text-gray-700 hover:text-pink-500 py-2 transition text-sm"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={handleNavigation}
                   >
                     Wishlist
                   </Link>
                   <Link
                     to="/cart"
                     className="text-gray-700 hover:text-pink-500 py-2 transition text-sm"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={handleNavigation}
                   >
                     Cart
                   </Link>
                   <button
-                    onClick={() => {
-                      handleLogout();
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={handleLogout}
                     className="text-left text-red-600 hover:text-red-700 py-2 transition text-sm"
                   >
                     Logout
@@ -252,20 +224,14 @@ function Header({ isAuthenticated, user, onLogout }) {
                   <Link
                     to="/login"
                     className="text-gray-700 hover:text-pink-500 py-2 transition text-sm"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={handleNavigation}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
                     className="text-gray-700 hover:text-pink-500 py-2 transition text-sm"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={handleNavigation}
                   >
                     Register
                   </Link>

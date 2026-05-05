@@ -73,7 +73,7 @@ export const wishlistApi = {
   remove: (productId) => api.delete(`/wishlist/${productId}`),
 };
 
-export default {
+const apiService = {
   auth: authApi,
   products: productApi,
   cart: cartApi,
@@ -82,3 +82,5 @@ export default {
   wishlist: wishlistApi,
   api,
 };
+
+export default apiService;

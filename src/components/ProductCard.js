@@ -13,7 +13,7 @@ const ProductCard = ({ product, isAuthenticated, onAddToCart }) => {
       return;
     }
 
-    setLoading(true);
+    setLoading(true); 
     try {
       await onAddToCart(product.id, 1);
       toast.success('Added to cart!');
