@@ -26,6 +26,7 @@ const ProductCard = ({ product, isAuthenticated, onAddToCart }) => {
 
   const handleViewDetails = () => {
     navigate(`/product/${product.id}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Get primary image or use placeholder

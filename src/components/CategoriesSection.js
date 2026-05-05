@@ -8,30 +8,30 @@ const CategoriesSection = ({ categories = [] }) => {
     {
       id: 1,
       name: '3D Keychains',
-      icon: '🔑',
       color: 'from-blue-100 to-blue-50',
-      slug: '3d-keychains'
+      slug: '3d-keychains',
+      imagePath: '/images/categories/3d-keychains.jpg'
     },
     {
       id: 2,
-      name: 'Lithophanes',
-      icon: '🖼️',
+      name: 'lithoframes',
       color: 'from-purple-100 to-purple-50',
-      slug: 'lithophanes'
+      slug: 'lithoframes',
+      imagePath: '/images/categories/lithoframes.jpg'
     },
     {
       id: 3,
       name: '3D Printed Lamps',
-      icon: '💡',
       color: 'from-yellow-100 to-yellow-50',
-      slug: '3d-lamps'
+      slug: '3d-lamps',
+      imagePath: '/images/categories/3d-lamps.jpg'
     },
     {
       id: 4,
       name: 'Pen Holders',
-      icon: '✏️',
       color: 'from-orange-100 to-orange-50',
-      slug: 'pen-holders'
+      slug: 'pen-holders',
+      imagePath: '/images/categories/pen-holders.jpg'
     }
   ];
 
@@ -39,13 +39,14 @@ const CategoriesSection = ({ categories = [] }) => {
 
   const handleCategoryClick = (categoryId) => {
     navigate(`/category/${categoryId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <section className="py-12 md:py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-4">
           Explore <span className="text-pink-500">3D Printed Items</span>
         </h2>
 
@@ -55,25 +56,39 @@ const CategoriesSection = ({ categories = [] }) => {
             <button
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
-              className={`group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 h-48 md:h-56 bg-gradient-to-br ${category.color || 'from-pink-100 to-pink-50'}`}
+              className={`group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 h-48 md:h-56`}
             >
-              {/* Background with hover effect */}
-              <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+              {/* Background Image with Fallback */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${category.color || 'from-pink-100 to-pink-50'}`}>
+                {category.imagePath && (
+                  <img
+                    src={category.imagePath}
+                    alt={category.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* Dark Overlay */}
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-50 transition-all duration-300"></div>
 
               {/* Content */}
               <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-                {/* Icon */}
+                {/* Icon - Falls back if image fails */}
                 <div className="text-5xl md:text-6xl mb-3 group-hover:scale-110 transition-transform duration-300">
                   {category.icon}
                 </div>
 
                 {/* Category Name */}
-                <h3 className="text-sm md:text-lg font-bold text-gray-800 group-hover:text-pink-600 transition-colors duration-300">
+                <h3 className="text-sm md:text-lg font-bold text-white drop-shadow-md group-hover:text-white transition-colors duration-300">
                   {category.name}
                 </h3>
 
                 {/* View All text - appears on hover */}
-                <p className="text-xs text-gray-600 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-xs text-white mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-md">
                   View All →
                 </p>
               </div>
@@ -94,7 +109,10 @@ const CategoriesSection = ({ categories = [] }) => {
         {/* Browse All CTA */}
         <div className="text-center">
           <button
-            onClick={() => navigate('/products')}
+            onClick={() => {
+              navigate('/products');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-300 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 active:scale-95"
           >
             Browse All 3D Products

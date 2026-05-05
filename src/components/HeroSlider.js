@@ -10,7 +10,7 @@ const HeroSlider = ({ slides = [] }) => {
       id: 1,
       title: 'Custom 3D Keychains',
       subtitle: 'PERSONALIZED DESIGNS',
-      description: 'starting at $5.99',
+      description: 'starting at ₹50',
       cta: 'SHOP NOW',
       image: 'linear-gradient(135deg, #fce7f3 0%, #fed7aa 100%)',
       textColor: 'text-black',

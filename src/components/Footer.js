@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const Footer = () => {
@@ -51,7 +52,7 @@ const Footer = () => {
               Infinite Prints
             </h3>
             <p className="text-sm mb-4">
-              Your premier destination for custom 3D printed items - from personalized keychains and lithophanes to unique home decor.
+              Your premier destination for custom 3D printed items - from personalized keychains and lithoframes to unique home decor.
             </p>
             <div className="text-xs text-gray-500">
               <p className="font-semibold text-gray-400 mb-2">Follow Us</p>
@@ -67,11 +68,11 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Shop</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-pink-400 transition">Latest 3D Creations</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Most Popular Items</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Customer Favorites</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">On Sale</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Custom Orders</a></li>
+              <li><Link to="/latest-products" className="hover:text-pink-400 transition">Latest 3D Creations</Link></li>
+              <li><Link to="/popular-products" className="hover:text-pink-400 transition">Most Popular Items</Link></li>
+              <li><Link to="/favorite-products" className="hover:text-pink-400 transition">Customer Favorites</Link></li>
+              <li><Link to="/sale-products" className="hover:text-pink-400 transition">On Sale</Link></li>
+              <li><Link to="/custom-orders" className="hover:text-pink-400 transition">Custom Orders</Link></li>
             </ul>
           </div>
 
@@ -79,11 +80,11 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">3D Items</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-pink-400 transition">3D Keychains</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Lithophanes</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">3D Printed Lamps</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Pen Holders</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Custom Prints</a></li>
+              <li><Link to="/category/1" className="hover:text-pink-400 transition">3D Keychains</Link></li>
+              <li><Link to="/category/2" className="hover:text-pink-400 transition">lithoframes</Link></li>
+              <li><Link to="/category/3" className="hover:text-pink-400 transition">3D Printed Lamps</Link></li>
+              <li><Link to="/category/4" className="hover:text-pink-400 transition">Pen Holders</Link></li>
+              <li><Link to="/custom-orders" className="hover:text-pink-400 transition">Custom Prints</Link></li>
             </ul>
           </div>
 
@@ -91,11 +92,11 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Customer Service</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-pink-400 transition">Contact Us</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">FAQ</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Shipping Info</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Returns</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Track Order</a></li>
+              <li><Link to="/contact-us" className="hover:text-pink-400 transition">Contact Us</Link></li>
+              <li><Link to="/faq" className="hover:text-pink-400 transition">FAQ</Link></li>
+              <li><Link to="/shipping-info" className="hover:text-pink-400 transition">Shipping Info</Link></li>
+              <li><Link to="/returns" className="hover:text-pink-400 transition">Returns</Link></li>
+              <li><Link to="/track-order" className="hover:text-pink-400 transition">Track Order</Link></li>
             </ul>
           </div>
 
@@ -103,11 +104,10 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-pink-400 transition">About Us</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Cookie Policy</a></li>
-              <li><a href="#" className="hover:text-pink-400 transition">Careers</a></li>
+              <li><Link to="/about-us" className="hover:text-pink-400 transition">About Us</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-pink-400 transition">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="hover:text-pink-400 transition">Terms & Conditions</Link></li>
+              <li><Link to="/cookie-policy" className="hover:text-pink-400 transition">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
@@ -119,40 +119,24 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           {/* Contact Info */}
           <div>
-            <h5 className="text-white font-semibold mb-3">📞 Get in Touch</h5>
+            <h5 className="text-white font-semibold mb-3">Get in Touch</h5>
             <ul className="text-sm space-y-2">
-              <li>📧 support@infiniteprints.com</li>
-              <li>📱 +1 (800) 123-4567</li>
-              <li>🕒 Mon-Fri: 9AM-6PM (IST)</li>
-              <li>🕒 Sat-Sun: 10AM-4PM (IST)</li>
+              <li>shivamjangid0108@gmail.com</li>
+              <li>+91 9057157661</li>
+              <li>Mon-Fri: 9AM-6PM (IST)</li>
+              <li>Sat-Sun: 10AM-4PM (IST)</li>
             </ul>
           </div>
 
           {/* Company Info */}
           <div>
-            <h5 className="text-white font-semibold mb-3">🏢 Company</h5>
+            <h5 className="text-white font-semibold mb-3">Company</h5>
             <ul className="text-sm space-y-2">
-              <li>Headquarters: New Delhi, India</li>
+              <li>Headquarters: Jaipur, Rajasthan, India</li>
               <li>Founded: 2024</li>
-              <li>ISO Certified 3D Printing</li>
-              <li>🌍 Free Shipping to 50+ Countries</li>
             </ul>
           </div>
 
-          {/* Payment Methods */}
-          <div>
-            <h5 className="text-white font-semibold mb-3">💳 We Accept</h5>
-            <div className="grid grid-cols-4 gap-2 text-2xl">
-              <span title="Visa">💳</span>
-              <span title="Mastercard">🎫</span>
-              <span title="PayPal">📲</span>
-              <span title="Apple Pay">��</span>
-              <span title="Google Pay">🔵</span>
-              <span title="UPI">↔️</span>
-              <span title="Bank Transfer">🏦</span>
-              <span title="Cryptocurrency">₿</span>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Footer */}
@@ -162,18 +146,10 @@ const Footer = () => {
               <p>&copy; 2024 Infinite Prints. All rights reserved. | Made with ❤️ in India</p>
             </div>
             <div className="text-right">
-              <p>🌐 Available in 50+ Countries | 📦 Fast & Secure Shipping</p>
+              <p>📦 Fast & Secure Shipping</p>
             </div>
           </div>
 
-          {/* Certifications & Badges */}
-          <div className="flex flex-wrap gap-4 mt-6 justify-center text-2xl opacity-75">
-            <span title="SSL Secured">🔒</span>
-            <span title="Money Back Guarantee">💰</span>
-            <span title="Fast Shipping">🚚</span>
-            <span title="Quality Guaranteed">⭐</span>
-            <span title="24/7 Support">📞</span>
-          </div>
         </div>
       </div>
 
