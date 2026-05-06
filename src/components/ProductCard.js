@@ -30,8 +30,8 @@ const ProductCard = ({ product, isAuthenticated, onAddToCart }) => {
   };
 
   // Get primary image or use placeholder
-  const primaryImage = product.images?.find(img => img.isPrimary)?.url || 
-                       product.images?.[0]?.url ||
+  const primaryImage = product.images?.find(img => img.isPrimary)?.publicUrl || 
+                       product.images?.[0]?.publicUrl ||
                        'https://via.placeholder.com/300x300?text=No+Image';
 
   // Calculate average rating

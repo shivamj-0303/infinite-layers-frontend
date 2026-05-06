@@ -70,7 +70,6 @@ function Register({ onRegisterSuccess }) {
         formData.lastName
       );
 
-      console.log('Register response:', response.data); // DEBUG
 
       // Show success message
       toast.success('Registration successful!');
@@ -82,7 +81,6 @@ function Register({ onRegisterSuccess }) {
         // Decode token
         const userData = parseJwt(token);
         
-        console.log('Auto-login with token:', userData); // DEBUG
         
         localStorage.setItem('authToken', token);
         localStorage.setItem('user', JSON.stringify(userData));

@@ -134,7 +134,7 @@ const Cart = () => {
                   {/* Product Image */}
                   <div className="w-24 h-24 md:w-32 md:h-32 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                     <img
-                      src={item.product?.images?.[0]?.url || 'https://via.placeholder.com/200'}
+                      src={item.product?.images?.[0]?.publicUrl || 'https://via.placeholder.com/200'}
                       alt={item.product?.name}
                       className="w-full h-full object-cover"
                     />
@@ -247,13 +247,6 @@ const Cart = () => {
                 <button className="w-full border-2 border-pink-500 text-pink-600 hover:bg-pink-50 font-semibold py-2 rounded-lg transition">
                   Apply Code
                 </button>
-              </div>
-
-              {/* Security & Info */}
-              <div className="mt-6 space-y-2 text-xs text-gray-600 text-center">
-                <p>✅ Secure Checkout</p>
-                <p>🔒 100% Safe & Protected</p>
-                <p>📦 Order Tracking Available</p>
               </div>
             </div>
           </div>

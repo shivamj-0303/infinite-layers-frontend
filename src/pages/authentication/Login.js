@@ -25,7 +25,6 @@ function Login({ onLoginSuccess }) {
     try {
       const response = await apiService.auth.login(email, password);
 
-      console.log('Login response:', response.data); // DEBUG
 
       // Extract token from response - handle different response formats
       let token = response.data?.token || response.data?.accessToken || response.data?.data?.token;
@@ -37,7 +36,6 @@ function Login({ onLoginSuccess }) {
       // Decode token to get user info (basic JWT decode)
       const userData = parseJwt(token);
 
-      console.log('Decoded user data:', userData); // DEBUG
 
       // Store token and user data in localStorage using consistent keys
       localStorage.setItem('authToken', token);

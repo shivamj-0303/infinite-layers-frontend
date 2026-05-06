@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { productApi, categoryApi } from '../services/api';
+import { productApi } from '../services/api';
 
 function ProductFilterSort({ 
   title, 
@@ -11,7 +11,6 @@ function ProductFilterSort({
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
   
   // Filter & Sort State
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -23,21 +22,6 @@ function ProductFilterSort({
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize] = useState(12);
-
-  // Fetch categories on mount
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await categoryApi.list();
-      setCategories(response.data || []);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      toast.error('Failed to load categories');
-    }
-  };
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -160,30 +144,6 @@ function ProductFilterSort({
                 </select>
               </div>
 
-              {/* Category Filter */}
-              {categories.length > 0 && (
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">
-                    Category
-                  </label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => {
-                      setSelectedCategory(e.target.value);
-                      setCurrentPage(0);
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm"
-                  >
-                    <option value="">All Categories</option>
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.name}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
               {/* Price Range Filter */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -280,7 +240,7 @@ function ProductFilterSort({
                       <div className="relative bg-gray-200 h-48 overflow-hidden">
                         {product.images && product.images.length > 0 ? (
                           <img
-                            src={product.images[0].url}
+                            src={product.images[0].publicUrl}
                             alt={product.name}
                             className="w-full h-full object-cover hover:scale-110 transition duration-300"
                           />

@@ -177,7 +177,7 @@ function ProductDetail({ isAuthenticated }) {
             {/* Main Image */}
             <div className="relative bg-gray-100 rounded-lg overflow-hidden aspect-square flex items-center justify-center">
               <img
-                src={selectedImage?.url || 'https://via.placeholder.com/500x500?text=No+Image'}
+                src={selectedImage?.publicUrl || 'https://via.placeholder.com/500x500?text=No+Image'}
                 alt={product.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -203,7 +203,7 @@ function ProductDetail({ isAuthenticated }) {
                     }`}
                   >
                     <img
-                      src={image.url}
+                      src={image.publicUrl}
                       alt={`${product.name} ${index + 1}`}
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -396,7 +396,7 @@ function ProductDetail({ isAuthenticated }) {
               >
                 <div className="relative overflow-hidden bg-gray-100 aspect-square">
                   <img
-                    src={relProduct.images?.find(img => img.isPrimary)?.url || relProduct.images?.[0]?.url || 'https://via.placeholder.com/300x300?text=Product'}
+                    src={relProduct.images?.find(img => img.isPrimary)?.publicUrl || relProduct.images?.[0]?.publicUrl || 'https://via.placeholder.com/300x300?text=Product'}
                     alt={relProduct.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     onError={(e) => {

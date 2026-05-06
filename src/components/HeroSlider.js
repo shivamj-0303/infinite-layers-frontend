@@ -4,7 +4,6 @@ const HeroSlider = ({ slides = [] }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
 
-  // Default sample slides if none provided
   const defaultSlides = [
     {
       id: 1,
@@ -12,17 +11,17 @@ const HeroSlider = ({ slides = [] }) => {
       subtitle: 'PERSONALIZED DESIGNS',
       description: 'starting at ₹50',
       cta: 'SHOP NOW',
-      image: 'linear-gradient(135deg, #fce7f3 0%, #fed7aa 100%)',
+      image: '/images/hero/keychain.jpg',
       textColor: 'text-black',
       highlighted: 'text-pink-500'
     },
     {
       id: 2,
-      title: 'Stunning Lithophanes',
+      title: 'Stunning Lithoframes',
       subtitle: 'PHOTO TO 3D ART',
       description: 'Transform Your Photos',
       cta: 'EXPLORE',
-      image: 'linear-gradient(135deg, #dbeafe 0%, #fce7f3 100%)',
+      image: '/images/hero/lithoframe.jpg',
       textColor: 'text-black',
       highlighted: 'text-blue-500'
     },
@@ -32,7 +31,7 @@ const HeroSlider = ({ slides = [] }) => {
       subtitle: 'MODERN LIGHTING',
       description: 'Unique Illumination',
       cta: 'DISCOVER',
-      image: 'linear-gradient(135deg, #fef08a 0%, #fed7aa 100%)',
+      image: '/images/hero/lamp.jpg',
       textColor: 'text-black',
       highlighted: 'text-yellow-600'
     },
@@ -42,7 +41,7 @@ const HeroSlider = ({ slides = [] }) => {
       subtitle: 'STYLISH PEN HOLDERS',
       description: 'Keep Your Desk Neat',
       cta: 'VIEW',
-      image: 'linear-gradient(135deg, #dcfce7 0%, #dbeafe 100%)',
+      image: '/images/hero/organizer.jpg',
       textColor: 'text-black',
       highlighted: 'text-green-600'
     },
@@ -52,7 +51,7 @@ const HeroSlider = ({ slides = [] }) => {
       subtitle: 'CUSTOM CREATIONS',
       description: 'Design Your Own',
       cta: 'CREATE NOW',
-      image: 'linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%)',
+      image: '/images/hero/custom.jpg',
       textColor: 'text-black',
       highlighted: 'text-purple-600'
     }
@@ -90,70 +89,65 @@ const HeroSlider = ({ slides = [] }) => {
 
   return (
     <div className="relative w-full overflow-hidden bg-white">
-      {/* Slider Container */}
-      <div className="relative h-96 sm:h-[500px] md:h-[600px] overflow-hidden rounded-lg">
-        {/* Slide */}
-        <div
-          className="absolute inset-0 transition-all duration-700 ease-in-out flex items-center"
-          style={{ background: slide.image }}
-        >
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between">
-            {/* Left Content */}
-            <div className="lg:w-1/2 mb-8 lg:mb-0">
-              <h3 className={`text-sm md:text-base font-semibold mb-2 tracking-widest ${slide.highlighted}`}>
-                {slide.subtitle}
-              </h3>
-              <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${slide.textColor}`}>
-                {slide.title}
-              </h2>
-              <p className={`text-lg md:text-xl mb-8 ${slide.textColor}`}>
-                {slide.description}
-              </p>
-              <button className={`px-8 py-3 md:px-10 md:py-4 text-white font-bold rounded-full transition transform hover:scale-105 active:scale-95 bg-gradient-to-r from-pink-500 to-orange-500 hover:shadow-lg hover:shadow-pink-300`}>
-                {slide.cta}
-              </button>
-            </div>
+      <div className="relative h-96 sm:h-[500px] md:h-[600px] overflow-hidden">
+        
+        {/* 1. BACKGROUND IMAGE */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={slide.image}
+            alt={slide.title}
+            className="w-full h-full object-cover object-right md:object-center"
+          />
+          {/* 2. GRADIENT OVERLAY (Fades from white to transparent) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent md:via-white/40"></div>
+        </div>
 
-            {/* Right Decorative Element */}
-            <div className="lg:w-1/2 flex justify-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80">
-                <div className="absolute inset-0 rounded-full bg-white bg-opacity-10 blur-3xl"></div>
-                <div className="absolute inset-8 rounded-full border-2 border-white border-opacity-20"></div>
-                <div className="absolute inset-16 rounded-full border-2 border-white border-opacity-10"></div>
-              </div>
-            </div>
+        {/* 3. CONTENT LAYER (Z-10 ensures it's above image and gradient) */}
+        <div className="relative z-10 h-full container mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+          <div className="lg:w-1/2 w-full transition-all duration-700 ease-in-out">
+            <h3 className={`text-sm md:text-base font-bold mb-2 tracking-widest uppercase ${slide.highlighted}`}>
+              {slide.subtitle}
+            </h3>
+            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight ${slide.textColor}`}>
+              {slide.title}
+            </h2>
+            <p className={`text-lg md:text-xl mb-8 font-medium ${slide.textColor} opacity-90`}>
+              {slide.description}
+            </p>
+            <button className="px-8 py-3 md:px-10 md:py-4 text-white font-bold rounded-full transition transform hover:scale-105 active:scale-95 bg-gradient-to-r from-pink-600 to-orange-500 hover:shadow-xl shadow-md">
+              {slide.cta}
+            </button>
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* 4. NAVIGATION CONTROLS */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full transition"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full transition"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
 
-        {/* Dots Navigation */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
           {items.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all ${
+              className={`transition-all duration-300 ${
                 index === currentSlide
-                  ? 'w-8 h-3 bg-white'
-                  : 'w-3 h-3 bg-white/50 hover:bg-white/75'
+                  ? 'w-10 h-2 bg-pink-500'
+                  : 'w-2 h-2 bg-gray-400 hover:bg-gray-600'
               } rounded-full`}
             />
           ))}
