@@ -42,7 +42,7 @@ const config = {
 
   // Application Configuration
   app: {
-    name: 'Infinite Prints',
+    name: 'Infinite Layers',
     version: '1.0.0',
   },
 

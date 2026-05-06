@@ -120,16 +120,16 @@ const ProductCard = ({ product, isAuthenticated, onAddToCart }) => {
 
           {/* Stock Status */}
           <p className={`text-xs font-semibold mt-2 ${
-            product.stock > 10 
+            product.stockQuantity > 10 
               ? 'text-green-600' 
-              : product.stock > 0 
+              : product.stockQuantity > 0 
               ? 'text-orange-600' 
               : 'text-red-600'
           }`}>
-            {product.stock > 10 
+            {product.stockQuantity > 10 
               ? 'In Stock' 
-              : product.stock > 0 
-              ? `Only ${product.stock} left` 
+              : product.stockQuantity > 0 
+              ? `Only ${product.stockQuantity} left` 
               : 'Out of Stock'}
           </p>
         </div>
@@ -137,14 +137,14 @@ const ProductCard = ({ product, isAuthenticated, onAddToCart }) => {
         {/* Add to Cart Button */}
         <button
           onClick={handleAddToCart}
-          disabled={loading || product.stock === 0}
+          disabled={loading || product.stockQuantity === 0}
           className={`w-full mt-4 py-2 px-3 rounded-lg font-semibold transition duration-300 text-sm md:text-base ${
-            product.stock === 0
+            product.stockQuantity === 0
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
               : 'bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:shadow-lg hover:shadow-pink-300 active:scale-95'
           }`}
         >
-          {loading ? '⏳ Adding...' : product.stock === 0 ? '❌ Out of Stock' : '🛒 Add to Cart'}
+          {loading ? '⏳ Adding...' : product.stockQuantity === 0 ? '❌ Out of Stock' : '🛒 Add to Cart'}
         </button>
       </div>
     </div>

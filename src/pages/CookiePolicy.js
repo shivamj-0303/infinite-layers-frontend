@@ -17,7 +17,7 @@ function CookiePolicy() {
 
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">2. How We Use Cookies</h2>
-            <p>Infinite Prints uses cookies for the following purposes:</p>
+            <p>Infinite Layers uses cookies for the following purposes:</p>
             <ul className="list-disc list-inside space-y-2">
               <li><strong>Authentication:</strong> To keep you logged in and authenticated</li>
               <li><strong>Preferences:</strong> To remember your preferences and settings</li>

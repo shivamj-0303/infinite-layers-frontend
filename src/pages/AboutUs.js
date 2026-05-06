@@ -7,7 +7,7 @@ function AboutUs() {
       {/* Header */}
       <section className="bg-gradient-to-r from-pink-500 to-orange-500 text-white py-8 md:py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">About Infinite Prints</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">About Infinite Layers</h1>
           <p className="text-lg opacity-90">Creating amazing 3D printed products for everyone</p>
         </div>
       </section>
@@ -18,13 +18,13 @@ function AboutUs() {
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
-            Infinite Prints was founded in 2024 with a simple mission: to bring 3D printing technology to everyone. We believe that 3D printing has the power to transform how people create, design, and think about objects in the real world.
+            Infinite Layers was founded in 2024 with a simple mission: to bring 3D printing technology to everyone. We believe that 3D printing has the power to transform how people create, design, and think about objects in the real world.
           </p>
           <p className="text-gray-700 leading-relaxed mb-4">
             Our journey began with a passion for innovation and a desire to make custom 3D printing accessible and affordable. Starting with a small team and cutting-edge 3D printers, we've grown into a trusted brand that serves customers across India.
           </p>
           <p className="text-gray-700 leading-relaxed">
-            Today, Infinite Prints stands as a premier destination for high-quality 3D printed items, from personalized keychains and decorative pieces to custom designs tailored to our customers' unique requirements.
+            Today, Infinite Layers stands as a premier destination for high-quality 3D printed items, from personalized keychains and decorative pieces to custom designs tailored to our customers' unique requirements.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ function AboutUs() {
 
         {/* Why Choose Us */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Why Choose Infinite Prints?</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">Why Choose Infinite Layers?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
@@ -140,7 +140,7 @@ function AboutUs() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Our Team</h2>
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-8">
             <p className="text-gray-700 mb-4">
-              At Infinite Prints, our team consists of passionate professionals with expertise in 3D printing, product design, and customer service. We're united by a common goal: to make 3D printing accessible and fun for everyone.
+              At Infinite Layers, our team consists of passionate professionals with expertise in 3D printing, product design, and customer service. We're united by a common goal: to make 3D printing accessible and fun for everyone.
             </p>
             <p className="text-gray-700">
               From our skilled technicians who operate our 3D printers to our customer support team who ensures your satisfaction, every team member is dedicated to excellence. We believe in continuous learning and staying at the forefront of 3D printing technology.

@@ -69,7 +69,7 @@ export const categoryApi = {
 
 export const wishlistApi = {
   get: () => api.get('/wishlist'),
-  add: (productId) => api.post('/wishlist', { productId }),
+  add: (productId) => api.post(`/wishlist/${productId}`),
   remove: (productId) => api.delete(`/wishlist/${productId}`),
 };
 

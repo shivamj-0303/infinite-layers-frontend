@@ -40,7 +40,7 @@ function Header({ isAuthenticated, user, onLogout }) {
             <Link to="/" onClick={handleNavigation} className="hover:opacity-80 transition">
               <img 
                 src="/logo.png" 
-                alt="Infinite Prints" 
+                alt="Infinite Layers" 
                 className="h-12 w-auto"
               />
             </Link>

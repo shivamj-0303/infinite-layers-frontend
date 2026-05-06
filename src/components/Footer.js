@@ -49,7 +49,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <h3 className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent mb-4">
-              Infinite Prints
+              Infinite Layers
             </h3>
             <p className="text-sm mb-4">
               Your premier destination for custom 3D printed items - from personalized keychains and lithoframes to unique home decor.
@@ -143,7 +143,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-500">
             <div>
-              <p>&copy; 2024 Infinite Prints. All rights reserved. | Made with ❤️ in India</p>
+              <p>&copy; 2024 Infinite Layers. All rights reserved. | Made with ❤️ in India</p>
             </div>
             <div className="text-right">
               <p>📦 Fast & Secure Shipping</p>

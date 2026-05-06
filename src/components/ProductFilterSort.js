@@ -64,7 +64,7 @@ function ProductFilterSort({
     );
 
     if (inStockOnly) {
-      filtered = filtered.filter((product) => product.stock > 0);
+      filtered = filtered.filter((product) => product.stockQuantity > 0);
     }
 
     switch (sortBy) {
@@ -261,7 +261,7 @@ function ProductFilterSort({
                             </svg>
                           </div>
                         )}
-                        {product.stock === 0 && (
+                        {product.stockQuantity === 0 && (
                           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                             <span className="text-white font-bold text-lg">Out of Stock</span>
                           </div>
@@ -307,9 +307,9 @@ function ProductFilterSort({
 
                         {/* Stock Status */}
                         <div className="text-xs text-gray-600 mb-3">
-                          {product.stock > 0 ? (
+                          {product.stockQuantity > 0 ? (
                             <span className="text-green-600 font-medium">
-                              {product.stock} in stock
+                              {product.stockQuantity} in stock
                             </span>
                           ) : (
                             <span className="text-red-600 font-medium">Out of stock</span>
@@ -321,14 +321,14 @@ function ProductFilterSort({
                           onClick={() => {
                             onAddToCart(product.id, 1);
                           }}
-                          disabled={product.stock === 0}
+                          disabled={product.stockQuantity === 0}
                           className={`w-full py-2 rounded-lg font-medium transition ${
-                            product.stock === 0
+                            product.stockQuantity === 0
                               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                               : 'bg-pink-500 hover:bg-pink-600 text-white'
                           }`}
                         >
-                          {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                          {product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
                       </div>
                     </div>

@@ -10,7 +10,7 @@ function TermsConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">1. Agreement to Terms</h2>
             <p>
-              By accessing and using the Infinite Prints website (the "Website"), you accept and agree to be bound by the terms and 
+              By accessing and using the Infinite Layers website (the "Website"), you accept and agree to be bound by the terms and 
               provision of this agreement. If you do not agree to abide by the above, please do not use this service.
             </p>
           </section>
@@ -35,7 +35,7 @@ function TermsConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">3. Disclaimer</h2>
             <p>
-              The materials on our Website are provided on an 'as is' basis. Infinite Prints makes no warranties, expressed or implied, 
+              The materials on our Website are provided on an 'as is' basis. Infinite Layers makes no warranties, expressed or implied, 
               and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of 
               merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
             </p>
@@ -44,9 +44,9 @@ function TermsConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">4. Limitations</h2>
             <p>
-              In no event shall Infinite Prints or its suppliers be liable for any damages (including, without limitation, damages for 
+              In no event shall Infinite Layers or its suppliers be liable for any damages (including, without limitation, damages for 
               loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on the 
-              Website, even if Infinite Prints or an authorized representative has been notified orally or in writing of the possibility 
+              Website, even if Infinite Layers or an authorized representative has been notified orally or in writing of the possibility 
               of such damage.
             </p>
           </section>
@@ -54,8 +54,8 @@ function TermsConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">5. Accuracy of Materials</h2>
             <p>
-              The materials appearing on Infinite Prints could include technical, typographical, or photographic errors. Infinite Prints 
-              does not warrant that any of the materials on the Website are accurate, complete, or current. Infinite Prints may make 
+              The materials appearing on Infinite Layers could include technical, typographical, or photographic errors. Infinite Layers 
+              does not warrant that any of the materials on the Website are accurate, complete, or current. Infinite Layers may make 
               changes to the materials contained on the Website at any time without notice.
             </p>
           </section>
@@ -63,8 +63,8 @@ function TermsConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">6. Links</h2>
             <p>
-              Infinite Prints has not reviewed all of the sites linked to its Website and is not responsible for the contents of any 
-              such linked site. The inclusion of any link does not imply endorsement by Infinite Prints of the site. Use of any such 
+              Infinite Layers has not reviewed all of the sites linked to its Website and is not responsible for the contents of any 
+              such linked site. The inclusion of any link does not imply endorsement by Infinite Layers of the site. Use of any such 
               linked website is at the user's own risk.
             </p>
           </section>
@@ -72,7 +72,7 @@ function TermsConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">7. Modifications</h2>
             <p>
-              Infinite Prints may revise these terms of service for its Website at any time without notice. By using this Website, you 
+              Infinite Layers may revise these terms of service for its Website at any time without notice. By using this Website, you 
               are agreeing to be bound by the then current version of these terms of service.
             </p>
           </section>

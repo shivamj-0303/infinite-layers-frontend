@@ -267,8 +267,8 @@ function ProductDetail({ isAuthenticated }) {
               <div className="bg-gray-50 p-4 rounded-lg mb-6 space-y-2">
                 <p className="text-sm"><span className="font-semibold text-gray-800">SKU:</span> {product.sku || 'N/A'}</p>
                 <p className="text-sm"><span className="font-semibold text-gray-800">Availability:</span> 
-                  <span className={`ml-2 ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                  <span className={`ml-2 ${product.stockQuantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Out of stock'}
                   </span>
                 </p>
               </div>
@@ -294,7 +294,7 @@ function ProductDetail({ isAuthenticated }) {
                     min="1"
                   />
                   <button
-                    onClick={() => setQuantity(Math.min(product.stock || 999, quantity + 1))}
+                    onClick={() => setQuantity(Math.min(product.stockQuantity || 999, quantity + 1))}
                     className="px-4 py-2 hover:bg-gray-100 transition"
                   >
                     +
@@ -305,7 +305,7 @@ function ProductDetail({ isAuthenticated }) {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                disabled={isAddingToCart || product.stock <= 0}
+                disabled={isAddingToCart || product.stockQuantity <= 0}
                 className="w-full bg-pink-500 hover:bg-pink-600 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center gap-2"
               >
                 {isAddingToCart ? (
@@ -347,8 +347,8 @@ function ProductDetail({ isAuthenticated }) {
               </button>
 
               {/* Stock Warning */}
-              {product.stock <= 5 && product.stock > 0 && (
-                <p className="text-orange-600 text-sm font-semibold">Only {product.stock} items left!</p>
+              {product.stockQuantity <= 5 && product.stockQuantity > 0 && (
+                <p className="text-orange-600 text-sm font-semibold">Only {product.stockQuantity} items left!</p>
               )}
             </div>
           </div>

@@ -10,7 +10,7 @@ function PrivacyPolicy() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">1. Introduction</h2>
             <p>
-              Infinite Prints ("we", "us", "our", or "Company") operates the infiniteprints.com website (hereinafter referred to as the "Service"). 
+              Infinite Layers ("we", "us", "our", or "Company") operates the infinitelayers.in website (hereinafter referred to as the "Service"). 
               This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and 
               the choices you have associated with that data.
             </p>
@@ -37,7 +37,7 @@ function PrivacyPolicy() {
 
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">3. Use of Data</h2>
-            <p>Infinite Prints uses the collected data for various purposes:</p>
+            <p>Infinite Layers uses the collected data for various purposes:</p>
             <ul className="list-disc list-inside space-y-2">
               <li>To provide and maintain the Service</li>
               <li>To notify you about changes to our Service</li>
