@@ -48,7 +48,7 @@ function Dashboard({ user, isAuthenticated }) {
     }
 
     try {
-      await cartApi.addItem(productId, null, quantity);
+      await cartApi.addItem(productId, quantity);
       toast.success('Added to cart!');
     } catch (error) {
       toast.error('Failed to add to cart');

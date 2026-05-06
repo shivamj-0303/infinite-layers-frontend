@@ -59,18 +59,6 @@ const ProductGrid = ({
             />
           ))}
         </div>
-
-        {/* See More Button */}
-        {products.length > 0 && (
-          <div className="text-center mt-12">
-            <button className="inline-flex items-center gap-2 bg-white border-2 border-pink-500 hover:bg-pink-50 text-pink-500 font-bold py-3 px-8 rounded-full transition duration-300 hover:shadow-lg">
-              View All Products
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

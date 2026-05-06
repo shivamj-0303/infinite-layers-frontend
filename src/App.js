@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -67,6 +68,7 @@ function App() {
 
   return (
     <Router future={{ v7_relativeSplatPath: true }}>
+      <Toaster position="top-right" />
       <div className="flex flex-col min-h-screen">
         <Header isAuthenticated={isAuthenticated} user={user} onLogout={handleLogout} />
         <main className="flex-grow">

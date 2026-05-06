@@ -77,7 +77,7 @@ function ProductDetail({ isAuthenticated }) {
 
     try {
       setIsAddingToCart(true);
-      await cartApi.addItem(product.id, null, quantity);
+      await cartApi.addItem(product.id, quantity);
       toast.success(`Added ${quantity} item(s) to cart!`);
       setQuantity(1);
     } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { productApi } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 function ProductFilterSort({ 
   title, 
@@ -8,6 +9,8 @@ function ProductFilterSort({
   isAuthenticated,
   onAddToCart 
 }) {
+  const navigate = useNavigate();
+
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -234,7 +237,8 @@ function ProductFilterSort({
                   {filteredProducts.map((product) => (
                     <div
                       key={product.id}
-                      className="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden"
+                      onClick={() => navigate(`/product/${product.id}`)}
+                      className="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden cursor-pointer"
                     >
                       {/* Product Image */}
                       <div className="relative bg-gray-200 h-48 overflow-hidden">

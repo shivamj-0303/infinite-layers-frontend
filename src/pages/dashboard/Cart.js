@@ -38,7 +38,17 @@ const Cart = () => {
       await fetchCart();
       toast.success('Cart updated');
     } catch (err) {
-      toast.error('Failed to update cart');
+      console.log('FULL ERROR:', err);
+      console.log('RESPONSE:', err.response);
+      console.log('DATA:', err.response?.data);
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        err.message ||
+        'Something went wrong';
+
+      toast.error(message);
     }
   };
 
@@ -159,8 +169,13 @@ const Cart = () => {
                       </button>
                       <span className="font-semibold w-8 text-center">{item.quantity}</span>
                       <button
+                        disabled={item.quantity >= item.product?.stockQuantity}
                         onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded transition"
+                        className={`px-3 py-1 rounded transition ${
+                          item.quantity >= item.product?.stockQuantity
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+                        }`}
                       >
                         +
                       </button>
