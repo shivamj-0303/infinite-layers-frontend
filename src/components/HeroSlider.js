@@ -12,7 +12,7 @@ const HeroSlider = ({ slides = [] }) => {
       description: 'starting at ₹50',
       cta: 'SHOP NOW',
       image: '/images/hero/keychain.jpg',
-      textColor: 'text-black',
+      textColor: 'text-white',
       highlighted: 'text-pink-500'
     },
     {
@@ -22,7 +22,7 @@ const HeroSlider = ({ slides = [] }) => {
       description: 'Transform Your Photos',
       cta: 'EXPLORE',
       image: '/images/hero/lithoframe.jpg',
-      textColor: 'text-black',
+      textColor: 'text-white',
       highlighted: 'text-blue-500'
     },
     {
@@ -32,7 +32,7 @@ const HeroSlider = ({ slides = [] }) => {
       description: 'Unique Illumination',
       cta: 'DISCOVER',
       image: '/images/hero/lamp.jpg',
-      textColor: 'text-black',
+      textColor: 'text-white',
       highlighted: 'text-yellow-600'
     },
     {
@@ -42,7 +42,7 @@ const HeroSlider = ({ slides = [] }) => {
       description: 'Keep Your Desk Neat',
       cta: 'VIEW',
       image: '/images/hero/organizer.jpg',
-      textColor: 'text-black',
+      textColor: 'text-white',
       highlighted: 'text-green-600'
     },
     {
@@ -52,7 +52,7 @@ const HeroSlider = ({ slides = [] }) => {
       description: 'Design Your Own',
       cta: 'CREATE NOW',
       image: '/images/hero/custom.jpg',
-      textColor: 'text-black',
+      textColor: 'text-white',
       highlighted: 'text-purple-600'
     }
   ];
@@ -99,7 +99,9 @@ const HeroSlider = ({ slides = [] }) => {
             className="w-full h-full object-cover object-right md:object-center"
           />
           {/* 2. GRADIENT OVERLAY (Fades from white to transparent) */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent md:via-white/40"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
+
+          <div className="absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-black/75 via-black/40 to-transparent"></div>
         </div>
 
         {/* 3. CONTENT LAYER (Z-10 ensures it's above image and gradient) */}
@@ -108,10 +110,10 @@ const HeroSlider = ({ slides = [] }) => {
             <h3 className={`text-sm md:text-base font-bold mb-2 tracking-widest uppercase ${slide.highlighted}`}>
               {slide.subtitle}
             </h3>
-            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight ${slide.textColor}`}>
+            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight ${slide.textColor} drop-shadow-lg`}>
               {slide.title}
             </h2>
-            <p className={`text-lg md:text-xl mb-8 font-medium ${slide.textColor} opacity-90`}>
+            <p className={`text-lg md:text-xl mb-8 font-medium ${slide.textColor} text-white/85`}>
               {slide.description}
             </p>
             <button className="px-8 py-3 md:px-10 md:py-4 text-white font-bold rounded-full transition transform hover:scale-105 active:scale-95 bg-gradient-to-r from-pink-600 to-orange-500 hover:shadow-xl shadow-md">
