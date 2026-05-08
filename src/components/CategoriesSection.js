@@ -6,28 +6,28 @@ const CategoriesSection = ({ categories = [] }) => {
 
   const defaultCategories = [
     {
-      id: 1,
+      id: 'de5b12f6-db77-44d2-aa5f-db19e03ca4ce',
       name: '3D Keychains',
       color: 'from-blue-100 to-blue-50',
       slug: '3d-keychains',
       imagePath: '/images/categories/3d-keychains.jpg'
     },
     {
-      id: 2,
+      id: 'd897daed-ebf0-4b23-919c-e29542dd2fd6',
       name: 'lithoframes',
       color: 'from-purple-100 to-purple-50',
       slug: 'lithoframes',
       imagePath: '/images/categories/lithoframes.jpg'
     },
     {
-      id: 3,
+      id: 'e3d7b412-8f92-4a5c-9c1a-6d8f2b7a3e9c',
       name: '3D Printed Lamps',
       color: 'from-yellow-100 to-yellow-50',
       slug: '3d-lamps',
       imagePath: '/images/categories/3d-lamps.jpg'
     },
     {
-      id: 4,
+      id: 'ca33b68a-e946-4ebe-9591-52d1a6a9f793',
       name: 'Pen Holders',
       color: 'from-orange-100 to-orange-50',
       slug: 'pen-holders',

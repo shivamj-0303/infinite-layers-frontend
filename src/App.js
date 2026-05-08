@@ -27,6 +27,7 @@ import ShippingInfo from './pages/ShippingInfo';
 import Returns from './pages/Returns';
 import TrackOrder from './pages/TrackOrder';
 import AboutUs from './pages/AboutUs';
+import CategoryProducts from './pages/CategoryProducts';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -188,6 +189,14 @@ function App() {
             <Route
               path="/cookie-policy"
               element={<CookiePolicy />}
+            />
+            <Route
+              path="/category/:categoryId"
+              element={
+                <CategoryProducts
+                  isAuthenticated={isAuthenticated}
+                />
+              }
             />
             
             {/* Catch-all route */}

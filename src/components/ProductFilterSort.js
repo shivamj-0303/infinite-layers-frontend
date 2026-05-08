@@ -3,21 +3,21 @@ import toast from 'react-hot-toast';
 import { productApi } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
-function ProductFilterSort({ 
-  title, 
-  searchQuery = '', 
+function ProductFilterSort({
+  title,
+  searchQuery = '',
+  categoryId = null,
   isAuthenticated,
-  onAddToCart 
+  onAddToCart
 }) {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Filter & Sort State
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [sortBy, setSortBy] = useState('newest'); // newest, popular, price-low, price-high, rating
+  const [sortBy, setSortBy] = useState('newest');
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [inStockOnly, setInStockOnly] = useState(false);
 
@@ -29,6 +29,7 @@ function ProductFilterSort({
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
+
       let response;
 
       if (searchQuery) {
@@ -38,13 +39,17 @@ function ProductFilterSort({
       }
 
       const fetchedProducts = response.data?.content || response.data || [];
+
       setProducts(fetchedProducts);
       setTotalPages(response.data?.totalPages || 1);
+
     } catch (error) {
       console.error('Error fetching products:', error);
+
       if (error.response?.status !== 401) {
         toast.error('Failed to load products');
       }
+
       setProducts([]);
     } finally {
       setLoading(false);
@@ -54,44 +59,68 @@ function ProductFilterSort({
   const applyFiltersAndSort = useCallback(() => {
     let filtered = [...products];
 
-    if (selectedCategory) {
+    // CATEGORY FILTER
+    if (categoryId) {
       filtered = filtered.filter(
-        (product) =>
-          product.category?.toLowerCase() === selectedCategory.toLowerCase()
+        (product) => product.categoryId === categoryId
       );
     }
 
+    // PRICE FILTER
     filtered = filtered.filter(
       (product) =>
-        product.price >= priceRange[0] && product.price <= priceRange[1]
+        product.price >= priceRange[0] &&
+        product.price <= priceRange[1]
     );
 
+    // STOCK FILTER
     if (inStockOnly) {
-      filtered = filtered.filter((product) => product.stockQuantity > 0);
+      filtered = filtered.filter(
+        (product) => product.stockQuantity > 0
+      );
     }
 
+    // SORTING
     switch (sortBy) {
       case 'newest':
-        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        filtered.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         break;
+
       case 'popular':
-        filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
+        filtered.sort(
+          (a, b) => (b.views || 0) - (a.views || 0)
+        );
         break;
+
       case 'rating':
-        filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        filtered.sort(
+          (a, b) => (b.rating || 0) - (a.rating || 0)
+        );
         break;
+
       case 'price-low':
         filtered.sort((a, b) => a.price - b.price);
         break;
+
       case 'price-high':
         filtered.sort((a, b) => b.price - a.price);
         break;
+
       default:
         break;
     }
 
     setFilteredProducts(filtered);
-  }, [products, selectedCategory, sortBy, priceRange, inStockOnly]);
+
+  }, [
+    products,
+    categoryId,
+    sortBy,
+    priceRange,
+    inStockOnly
+  ]);
 
   useEffect(() => {
     fetchProducts();
@@ -102,7 +131,6 @@ function ProductFilterSort({
   }, [applyFiltersAndSort]);
 
   const handleReset = () => {
-    setSelectedCategory('');
     setSortBy('newest');
     setPriceRange([0, 10000]);
     setInStockOnly(false);
@@ -112,25 +140,33 @@ function ProductFilterSort({
   return (
     <div className="min-h-screen bg-white py-8 md:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Page Title */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-            {title || (searchQuery ? `Search Results for "${searchQuery}"` : 'All Products')}
+            {title || (searchQuery
+              ? `Search Results for "${searchQuery}"`
+              : 'All Products')}
           </h1>
+
           <p className="text-gray-600">
-            {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
+            {filteredProducts.length} product
+            {filteredProducts.length !== 1 ? 's' : ''} found
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Left Sidebar - Filters */}
+
+          {/* Filters Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-gray-50 rounded-lg p-6 sticky top-20 space-y-6">
-              {/* Sort Dropdown */}
+
+              {/* Sort */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Sort By
                 </label>
+
                 <select
                   value={sortBy}
                   onChange={(e) => {
@@ -147,11 +183,12 @@ function ProductFilterSort({
                 </select>
               </div>
 
-              {/* Price Range Filter */}
+              {/* Price Range */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Price Range
                 </label>
+
                 <div className="space-y-2">
                   <input
                     type="range"
@@ -160,11 +197,16 @@ function ProductFilterSort({
                     step="100"
                     value={priceRange[1]}
                     onChange={(e) => {
-                      setPriceRange([priceRange[0], parseInt(e.target.value)]);
+                      setPriceRange([
+                        priceRange[0],
+                        parseInt(e.target.value)
+                      ]);
+
                       setCurrentPage(0);
                     }}
                     className="w-full"
                   />
+
                   <div className="flex justify-between text-xs text-gray-600">
                     <span>₹{priceRange[0]}</span>
                     <span>₹{priceRange[1]}</span>
@@ -172,7 +214,7 @@ function ProductFilterSort({
                 </div>
               </div>
 
-              {/* In Stock Filter */}
+              {/* Stock Filter */}
               <div>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -184,11 +226,14 @@ function ProductFilterSort({
                     }}
                     className="w-4 h-4 text-pink-500 rounded focus:ring-pink-500"
                   />
-                  <span className="text-sm font-medium text-gray-700">In Stock Only</span>
+
+                  <span className="text-sm font-medium text-gray-700">
+                    In Stock Only
+                  </span>
                 </label>
               </div>
 
-              {/* Reset Button */}
+              {/* Reset */}
               <button
                 onClick={handleReset}
                 className="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 rounded-lg transition"
@@ -198,31 +243,23 @@ function ProductFilterSort({
             </div>
           </div>
 
-          {/* Right Content - Products */}
+          {/* Products */}
           <div className="lg:col-span-3">
+
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
               </div>
             ) : filteredProducts.length === 0 ? (
               <div className="text-center py-12">
-                <svg
-                  className="h-16 w-16 text-gray-400 mx-auto mb-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  No products found
+                </h3>
+
                 <p className="text-gray-600 mb-4">
-                  Try adjusting your filters or search terms
+                  Try adjusting your filters
                 </p>
+
                 <button
                   onClick={handleReset}
                   className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-6 rounded-lg transition"
@@ -234,14 +271,16 @@ function ProductFilterSort({
               <>
                 {/* Product Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
                   {filteredProducts.map((product) => (
                     <div
                       key={product.id}
                       onClick={() => navigate(`/product/${product.id}`)}
                       className="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden cursor-pointer"
                     >
-                      {/* Product Image */}
+                      {/* Image */}
                       <div className="relative bg-gray-200 h-48 overflow-hidden">
+
                         {product.images && product.images.length > 0 ? (
                           <img
                             src={product.images[0].publicUrl}
@@ -250,79 +289,39 @@ function ProductFilterSort({
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                            <svg
-                              className="h-12 w-12 text-gray-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                              />
-                            </svg>
+                            No Image
                           </div>
                         )}
+
                         {product.stockQuantity === 0 && (
                           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                            <span className="text-white font-bold text-lg">Out of Stock</span>
+                            <span className="text-white font-bold text-lg">
+                              Out of Stock
+                            </span>
                           </div>
                         )}
                       </div>
 
-                      {/* Product Info */}
+                      {/* Info */}
                       <div className="p-4">
+
                         <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
                           {product.name}
                         </h3>
+
                         <p className="text-sm text-gray-600 mb-3 line-clamp-2">
                           {product.description}
                         </p>
 
-                        {/* Rating */}
-                        {product.rating && (
-                          <div className="flex items-center gap-1 mb-2">
-                            <div className="flex text-yellow-400">
-                              {[...Array(5)].map((_, i) => (
-                                <span key={i}>
-                                  {i < Math.round(product.rating) ? '★' : '☆'}
-                                </span>
-                              ))}
-                            </div>
-                            <span className="text-xs text-gray-600">
-                              ({product.reviewCount || 0})
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Price */}
                         <div className="mb-3">
                           <span className="text-lg font-bold text-pink-500">
                             ₹{product.price?.toLocaleString('en-IN')}
                           </span>
-                          {product.originalPrice && (
-                            <span className="text-sm text-gray-500 line-through ml-2">
-                              ₹{product.originalPrice?.toLocaleString('en-IN')}
-                            </span>
-                          )}
                         </div>
 
-                        {/* Stock Status */}
-                        <div className="text-xs text-gray-600 mb-3">
-                          {product.stockQuantity > 0 ? (
-                            <span className="text-green-600 font-medium">
-                              {product.stockQuantity} in stock
-                            </span>
-                          ) : (
-                            <span className="text-red-600 font-medium">Out of stock</span>
-                          )}
-                        </div>
-
-                        {/* Add to Cart Button */}
                         <button
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             onAddToCart(product.id, 1);
                           }}
                           disabled={product.stockQuantity === 0}
@@ -332,47 +331,19 @@ function ProductFilterSort({
                               : 'bg-pink-500 hover:bg-pink-600 text-white'
                           }`}
                         >
-                          {product.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                          {product.stockQuantity === 0
+                            ? 'Out of Stock'
+                            : 'Add to Cart'}
                         </button>
+
                       </div>
                     </div>
                   ))}
-                </div>
 
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <div className="mt-8 flex justify-center gap-2">
-                    <button
-                      onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                      disabled={currentPage === 0}
-                      className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                    >
-                      Previous
-                    </button>
-                    {[...Array(totalPages)].map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setCurrentPage(i)}
-                        className={`px-4 py-2 rounded-lg ${
-                          currentPage === i
-                            ? 'bg-pink-500 text-white'
-                            : 'border border-gray-300 hover:bg-gray-50'
-                        }`}
-                      >
-                        {i + 1}
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
-                      disabled={currentPage === totalPages - 1}
-                      className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                    >
-                      Next
-                    </button>
-                  </div>
-                )}
+                </div>
               </>
             )}
+
           </div>
         </div>
       </div>
