@@ -105,7 +105,9 @@ function App() {
             />
             <Route 
               path="/wishlist" 
-              element={isAuthenticated ? <Wishlist /> : <Navigate to="/login" />} 
+              element={isAuthenticated
+                ? <Wishlist isAuthenticated={isAuthenticated} />
+                : <Navigate to="/login" />} 
             />
             <Route 
               path="/customer-care" 

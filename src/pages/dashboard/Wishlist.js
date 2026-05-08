@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import ProductCard from '../../components/ProductCard';
 import { wishlistApi, cartApi } from '../../services/api';
 
-function Wishlist() {
+function Wishlist({ isAuthenticated }) {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,10 +36,10 @@ function Wishlist() {
     }
   };
 
-  const handleAddToCart = async (product) => {
+  const handleAddToCart = async (productId, quantity = 1) => {
     try {
-      await cartApi.addItem(product.id, null, 1);
-      toast.success(`${product.name} added to cart!`);
+      await cartApi.addItem(productId, quantity);
+      toast.success('Added to cart!');
     } catch (error) {
       console.error('Error adding to cart:', error);
       toast.error('Failed to add to cart');
@@ -79,7 +79,8 @@ function Wishlist() {
               <div key={product.id} className="relative">
                 <ProductCard
                   product={product}
-                  onAddToCart={() => handleAddToCart(product)}
+                  isAuthenticated={isAuthenticated}
+                  onAddToCart={() => handleAddToCart(product.id)}
                 />
                 <button
                   onClick={() => handleRemoveFromWishlist(product.id)}
