@@ -23,7 +23,6 @@ function ProductFilterSort({
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
   const [pageSize] = useState(12);
 
   const fetchProducts = useCallback(async () => {
@@ -41,8 +40,6 @@ function ProductFilterSort({
       const fetchedProducts = response.data?.content || response.data || [];
 
       setProducts(fetchedProducts);
-      setTotalPages(response.data?.totalPages || 1);
-
     } catch (error) {
       console.error('Error fetching products:', error);
 
