@@ -180,14 +180,6 @@ const Cart = () => {
                         +
                       </button>
                     </div>
-
-                    {/* Remove Button */}
-                    <button
-                      onClick={() => handleRemoveItem(item.id)}
-                      className="text-red-500 hover:text-red-700 font-semibold text-sm transition"
-                    >
-                      🗑️ Remove
-                    </button>
                   </div>
 
                   {/* Item Total */}

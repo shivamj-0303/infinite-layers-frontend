@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { userApi } from './services/api';
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
@@ -50,6 +51,19 @@ function App() {
     setIsAuthenticated(false);
     setUser(null);
   };
+  
+  const loadUser = async () => {
+    try {
+      const res = await userApi.me();
+      setUser(res.data);
+    } catch (e) {
+      setUser(null);
+    }
+  };
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) loadUser();
+  }, []);
 
   const handleLoginSuccess = (token, userData) => {
     localStorage.setItem('authToken', token);

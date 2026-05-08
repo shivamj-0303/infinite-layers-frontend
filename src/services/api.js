@@ -73,6 +73,10 @@ export const wishlistApi = {
   remove: (productId) => api.delete(`/wishlist/${productId}`),
 };
 
+export const userApi = {
+  me: () => api.get('/user/me'),
+};
+
 const apiService = {
   auth: authApi,
   products: productApi,
