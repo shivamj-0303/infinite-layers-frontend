@@ -85,9 +85,6 @@ const ProductCard = ({ product, isAuthenticated, onAddToCart }) => {
       <div className="p-4 flex-1 flex flex-col justify-between">
         {/* Product Info */}
         <div>
-          <p className="text-xs text-gray-500 uppercase font-semibold mb-1">
-            {product.category?.name || 'Category'}
-          </p>
           <h3 className="text-sm md:text-base font-semibold text-gray-800 line-clamp-2 hover:text-pink-500 transition">
             {product.name}
           </h3>

@@ -42,7 +42,11 @@ function Wishlist({ isAuthenticated }) {
       toast.success('Added to cart!');
     } catch (error) {
       console.error('Error adding to cart:', error);
-      toast.error('Failed to add to cart');
+      toast.error(
+        error.response?.data?.message ||
+        error.response?.data ||
+        'Failed to add to cart'
+      );
     }
   };
 
