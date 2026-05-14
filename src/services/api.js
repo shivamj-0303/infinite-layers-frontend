@@ -75,6 +75,7 @@ export const wishlistApi = {
 
 export const userApi = {
   me: () => api.get('/user/me'),
+  updateMe: (data) => api.put('/user/me', data),
 };
 
 const apiService = {

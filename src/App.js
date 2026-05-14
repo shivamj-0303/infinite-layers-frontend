@@ -8,6 +8,8 @@ import Login from './pages/authentication/Login';
 import Register from './pages/authentication/Register';
 import Dashboard from './pages/dashboard/Dashboard';
 import Cart from './pages/dashboard/Cart';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 import Wishlist from './pages/dashboard/Wishlist';
 import CustomerCare from './pages/dashboard/CustomerCare';
 import SearchResults from './pages/SearchResults';
@@ -103,6 +105,14 @@ function App() {
             <Route 
               path="/cart" 
               element={isAuthenticated ? <Cart /> : <Navigate to="/login" />} 
+            />
+            <Route
+              path="/checkout"
+              element={isAuthenticated ? <Checkout /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/order-confirmation/:id"
+              element={isAuthenticated ? <OrderConfirmation /> : <Navigate to="/login" />}
             />
             <Route 
               path="/wishlist" 
