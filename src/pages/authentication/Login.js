@@ -38,7 +38,7 @@ function Login({ onLoginSuccess }) {
       localStorage.setItem('authToken', token);
 
       // Fetch real user profile
-      const userResponse = await apiService.user.getCurrentUser();
+      const userResponse = await apiService.user.me();
 
       const userData = userResponse.data;
 

@@ -91,6 +91,7 @@ const apiService = {
   order: orderApi,
   category: categoryApi,
   wishlist: wishlistApi,
+  user: userApi,
   api,
 };
 
