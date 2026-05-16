@@ -25,45 +25,48 @@ function Login({ onLoginSuccess }) {
     try {
       const response = await apiService.auth.login(email, password);
 
+      let token =
+        response.data?.token ||
+        response.data?.accessToken ||
+        response.data?.data?.token;
 
-      // Extract token from response - handle different response formats
-      let token = response.data?.token || response.data?.accessToken || response.data?.data?.token;
-      
       if (!token) {
         throw new Error('No token in response');
       }
 
-      // Decode token to get user info (basic JWT decode)
-      const userData = parseJwt(token);
-
-
-      // Store token and user data in localStorage using consistent keys
+      // Store token
       localStorage.setItem('authToken', token);
+
+      // Fetch real user profile
+      const userResponse = await apiService.user.getCurrentUser();
+
+      const userData = userResponse.data;
+
+      // Store user profile
       localStorage.setItem('user', JSON.stringify(userData));
 
-      // Call success callback with state update
+      // Update auth state
       onLoginSuccess(token, userData);
 
-      // Wait a bit for state to update before navigating
       setTimeout(() => {
         navigate('/', { replace: true });
       }, 100);
-      
+
       toast.success('Logged in successfully!');
     } catch (err) {
       console.error('Login error:', err);
+
       toast.error(
-        err.response?.data?.message || 
-        err.message || 
+        err.response?.data?.message ||
+        err.message ||
         'Login failed. Please check your credentials and try again.'
       );
+
       setError(
-        err.response?.data?.message || 
-        err.message || 
+        err.response?.data?.message ||
+        err.message ||
         'Login failed. Please check your credentials and try again.'
       );
-    } finally {
-      setLoading(false);
     }
   };
 

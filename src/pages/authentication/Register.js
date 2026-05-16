@@ -26,9 +26,12 @@ function Register({ onRegisterSuccess }) {
     confirmPassword: '',
     firstName: '',
     lastName: '',
+    phone: '',
+    otp: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +47,14 @@ function Register({ onRegisterSuccess }) {
     setLoading(true);
 
     // Validation
-    if (!formData.email || !formData.password || !formData.confirmPassword || !formData.firstName || !formData.lastName) {
+    if (
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.phone
+    ) {
       setError('Please fill in all fields');
       setLoading(false);
       return;
@@ -63,12 +73,26 @@ function Register({ onRegisterSuccess }) {
     }
 
     try {
-      const response = await apiService.auth.register(
-        formData.email,
-        formData.password,
-        formData.firstName,
-        formData.lastName
-      );
+      if (!otpSent) {
+
+        await apiService.auth.sendRegistrationOtp({
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+        });
+
+        setOtpSent(true);
+        toast.success('OTP sent successfully');
+        setLoading(false);
+        return;
+      }
+
+      const response = await apiService.auth.verifyRegistrationOtp({
+        email: formData.email,
+        otp: formData.otp,
+      });
 
 
       // Show success message
@@ -208,6 +232,24 @@ function Register({ onRegisterSuccess }) {
             />
           </div>
 
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+              Phone Number
+            </label>
+
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              required
+              className="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="+919876543210"
+              value={formData.phone}
+              onChange={handleChange}
+              disabled={loading || otpSent}
+            />
+          </div>
+
           {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
@@ -246,6 +288,25 @@ function Register({ onRegisterSuccess }) {
             />
           </div>
 
+          {otpSent && (
+            <div>
+              <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+                OTP
+              </label>
+
+              <input
+                id="otp"
+                name="otp"
+                type="text"
+                required
+                className="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Enter OTP"
+                value={formData.otp}
+                onChange={handleChange}
+                disabled={loading}
+              />
+            </div>
+          )}
           {/* Submit Button */}
           <div className="pt-2">
             <button
@@ -253,7 +314,11 @@ function Register({ onRegisterSuccess }) {
               disabled={loading}
               className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading
+                ? 'Processing...'
+                : otpSent
+                  ? 'Verify OTP'
+                  : 'Send OTP'}
             </button>
           </div>
         </form>

@@ -29,7 +29,13 @@ api.interceptors.response.use(
 );
 export const authApi = {
   login: (email, password) => api.post('/auth/login', { email, password }),
-  register: (email, password, firstName, lastName) => api.post('/auth/register', { email, password, firstName, lastName }),
+
+  sendRegistrationOtp: (data) =>
+    api.post('/auth/send-registration-otp', data),
+
+  verifyRegistrationOtp: (data) =>
+    api.post('/auth/verify-registration-otp', data),
+
   logout: () => api.post('/auth/logout'),
 };
 
