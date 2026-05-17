@@ -269,12 +269,52 @@ function ProductDetail({ isAuthenticated }) {
 
               {/* Product Details */}
               <div className="bg-gray-50 p-4 rounded-lg mb-6 space-y-2">
-                <p className="text-sm"><span className="font-semibold text-gray-800">SKU:</span> {product.sku || 'N/A'}</p>
-                <p className="text-sm"><span className="font-semibold text-gray-800">Availability:</span> 
-                  <span className={`ml-2 ${product.stockQuantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    {product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Out of stock'}
+
+                <p className="text-sm">
+                  <span className="font-semibold text-gray-800">
+                    SKU:
+                  </span>{' '}
+                  {product.sku || 'N/A'}
+                </p>
+
+                <p className="text-sm">
+                  <span className="font-semibold text-gray-800">
+                    Availability:
+                  </span>
+
+                  <span
+                    className={`ml-2 ${
+                      product.stockQuantity > 0
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    }`}
+                  >
+                    {product.stockQuantity > 0
+                      ? `${product.stockQuantity} in stock`
+                      : 'Out of stock'}
                   </span>
                 </p>
+
+                {product.length != null &&
+                  product.width != null &&
+                  product.height != null && (
+                    <p className="text-sm">
+                      <span className="font-semibold text-gray-800">
+                        Dimensions:
+                      </span>{' '}
+                      {product.length} × {product.width} × {product.height} cm
+                    </p>
+                  )}
+
+                {product.weight != null && (
+                  <p className="text-sm">
+                    <span className="font-semibold text-gray-800">
+                      Weight:
+                    </span>{' '}
+                    {product.weight} kg
+                  </p>
+                )}
+
               </div>
             </div>
 
