@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import apiService from '../../services/api';
 import toast from 'react-hot-toast';
@@ -32,6 +32,8 @@ function Register({ onRegisterSuccess }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendingOtp, setResendingOtp] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +41,46 @@ function Register({ onRegisterSuccess }) {
       ...prev,
       [name]: value,
     }));
+  };
+
+  useEffect(() => {
+    let timer;
+
+    if (resendCooldown > 0) {
+      timer = setTimeout(() => {
+        setResendCooldown((prev) => prev - 1);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
+
+  const handleResendOtp = async () => {
+    try {
+      setResendingOtp(true);
+
+      await apiService.auth.sendRegistrationOtp({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+      });
+
+      toast.success('OTP resent successfully');
+
+      setResendCooldown(30);
+
+    } catch (err) {
+      console.error('Resend OTP error:', err);
+
+      toast.error(
+        err.response?.data?.message ||
+        'Failed to resend OTP'
+      );
+    } finally {
+      setResendingOtp(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -84,6 +126,7 @@ function Register({ onRegisterSuccess }) {
         });
 
         setOtpSent(true);
+        setResendCooldown(30);
         toast.success('OTP sent successfully');
         setLoading(false);
         return;
@@ -289,22 +332,43 @@ function Register({ onRegisterSuccess }) {
           </div>
 
           {otpSent && (
-            <div>
-              <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
-                OTP
-              </label>
+            <div className="space-y-2">
+              <div>
+                <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+                  OTP
+                </label>
 
-              <input
-                id="otp"
-                name="otp"
-                type="text"
-                required
-                className="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Enter OTP"
-                value={formData.otp}
-                onChange={handleChange}
-                disabled={loading}
-              />
+                <input
+                  id="otp"
+                  name="otp"
+                  type="text"
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Enter OTP"
+                  value={formData.otp}
+                  onChange={handleChange}
+                  disabled={loading}
+                />
+              </div>
+
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-500">
+                  Didn’t receive the OTP?
+                </p>
+
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={resendCooldown > 0 || resendingOtp}
+                  className="text-sm font-medium text-pink-600 hover:text-pink-700 disabled:text-gray-400 disabled:cursor-not-allowed transition"
+                >
+                  {resendingOtp
+                    ? 'Sending...'
+                    : resendCooldown > 0
+                      ? `Resend in ${resendCooldown}s`
+                      : 'Resend OTP'}
+                </button>
+              </div>
             </div>
           )}
           {/* Submit Button */}
